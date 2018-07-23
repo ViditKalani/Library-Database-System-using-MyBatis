@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.Library_Mapper">
+
+	<resultMap id="BookResult" type="Book">
+		<id property="BookId" column="BookId" />
+		<result property="Title" column="Title" />
+		<result property="Rating" column="Rating" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="BookResult">
+		SELECT b.BookId, b.Title FROM BOOK b, BOOK_LOANS l where b.BookID = l.BookID and l.DateIn is NULL or l.DateIn > l.DueDate
+	</select>
+
+	<select id="selectAvg" resultMap="BookResult">
+		SELECT l.BookId, b.Title, avg(l.Rating) FROM BOOK_LOANS l, BOOK b where b.BookId = l.BookId group by l.BookId, b.Title
+	</select>
+
+
+</mapper> 
